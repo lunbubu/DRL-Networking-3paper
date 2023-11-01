@@ -1,3 +1,6 @@
+# 定义了一个"DNC"（Differentiable Neural Computer）类的Python类
+# DNC是一种具有外部存储器和可学习读写控制机制的神经网络模型
+
 import tensorflow as tf
 import numpy as np
 import os

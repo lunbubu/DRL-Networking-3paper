@@ -1,7 +1,9 @@
+# 代码跑了
+
 # -*- coding: utf-8 -*-
 import json
 import numpy as np
-filename="report_bus_0001.log"
+filename="./DRL-Networking-3paper/2020IPDPS-DRL+FL+TF(*)/Dataset/report_bus_0001.log"
 bandwidth = []
 with  open(filename, 'r') as file_to_read:
     while True:

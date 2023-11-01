@@ -1,4 +1,8 @@
+# 代码跑过了，两个图在word里
+# user_num = 100
+
 import os
+# 置log输出信息, 2:显示warning 和error
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from continuousEnv import ContinuousEnv, EnvArgs
 import numpy as np
@@ -34,7 +38,7 @@ def get_bandwidth(main_path):
 user_num = 100
 his_len = 5
 info_num = 1
-main_path = "./Dataset"
+main_path = "./DRL-Networking-3paper/2020IPDPS-DRL+FL+TF(*)/Dataset"
 bandwidth = get_bandwidth(main_path)
 C = np.array([18,20,22,24,26]).astype("float")
 D = np.array([0.08, 0.06, 0.07, 0.06, 0.09]).astype("float")
@@ -143,6 +147,8 @@ for ep in range(EP_MAX):
 
 plt.plot(rewards)
 plt.show()
+
+'''
 writer1.writerow(-rewards * 10)
 writer1.writerow(Ts)
 writer1.writerow(Es)
@@ -154,7 +160,7 @@ csvFile1.close()
 csvFile2.close()
 csvFile3.close()
 csvFile4.close()
-
+'''
 
 # if __name__ == '__main__':
 #     main()
@@ -169,6 +175,7 @@ csvFile1.close()
 csvFile2.close()
 csvFile3.close()
 csvFile4.close()
+
 tmp = []
 fig = plt.figure()
 for i in range(len(alosses)):

@@ -1,3 +1,5 @@
+# user_num = 200
+
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
 from continuousEnv import ContinuousEnv, EnvArgs
@@ -143,6 +145,8 @@ for ep in range(EP_MAX):
 
 plt.plot(rewards)
 plt.show()
+
+
 writer1.writerow(-rewards * 10)
 writer1.writerow(Ts)
 writer1.writerow(Es)

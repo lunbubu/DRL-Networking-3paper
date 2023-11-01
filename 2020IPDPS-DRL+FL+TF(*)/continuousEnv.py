@@ -1,3 +1,5 @@
+# 2020IPDPS这篇论文的环境跟自己的挺像的，可以参考，但这里的环境是连续的动作
+
 import numpy as np
 from collections import defaultdict
 
@@ -38,6 +40,7 @@ class ContinuousEnv(object):
         self.cur_user_T = np.zeros(self.user_num, "float32")
         self.cur_T = 0
 
+    # 重置环境
     def reset(self):
         self.global_time = 0
         self.global_step = int(self.global_time / 4)
@@ -57,6 +60,7 @@ class ContinuousEnv(object):
         self.cur_T, self.cur_user_T = self.count_T(self.cur_delta, self.cur_B)
         return self.state
     
+    # 计算用户的时间延迟(T)
     def count_T(self, delta, B):
         user_T = np.zeros(self.user_num, "float32")
         for i in range(self.user_num):

@@ -1,6 +1,8 @@
+# 这个代码没跑通，有点问题
+
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
-from continuousEnv import ContinuousEnv
+from continuousEnv import ContinuousEnv, EnvArgs
 import numpy as np
 import random
 import matplotlib.pyplot as plt
@@ -11,11 +13,33 @@ import csv
 def main():
     train_ppo()
 
+def get_bandwidth(main_path):
+    file_list = os.listdir(main_path)
+    bandwidth = {}
+    count = 0
+    bandwidth[0] = []
+    for f in file_list:
+        if (f.startswith("report_foot_") == True and count < 5):
+            with open(main_path + '/' + f, 'r') as file_to_read:
+                while True:
+                    lines = file_to_read.readline()
+                    if not lines:
+                        break
+                    item = [i for i in lines.split()]
+                    bandwidth[count].append(float(item[-2])/1000/1000)
+            count += 1
+            bandwidth[count] = []
+    return bandwidth
+
+main_path = "./DRL-Networking-3paper/2020IPDPS-DRL+FL+TF(*)/Dataset"
+bandwidth = get_bandwidth(main_path)
 
 def train_ppo():
     user_num = 5
     his_len = 5
     info_num = 2
+
+
     A_DIM, S_DIM = user_num, user_num * his_len * info_num
     BATCH = 20
     A_UPDATE_STEPS = 5
@@ -23,7 +47,16 @@ def train_ppo():
     A_LR = 0.00003
     C_LR = 0.00003
     v_s = np.zeros(user_num)
-    env = ContinuousEnv(user_num,his_len,info_num,bandwidth)
+
+    C = np.array([18,20,22,24,26]).astype("float")
+    D = np.array([0.08, 0.06, 0.07, 0.06, 0.09]).astype("float")
+    alpha = np.array([1,1,1,1,1]) / 50
+    tau = 2
+    epsilon = 5
+    env_args = EnvArgs(user_num, his_len, info_num, bandwidth, C, D, alpha, tau, epsilon)
+    env = ContinuousEnv(env_args)
+
+    #env = ContinuousEnv(user_num,his_len,info_num,bandwidth)
     GAMMA = 0.95
     EP_MAX = 1000
     EP_LEN = 400
@@ -122,6 +155,7 @@ def train_ppo():
 
     plt.plot(rewards)
     plt.show()
+
     writer1.writerow(rewards)
     for i in range(len(actions)):
         writer2.writerow(actions[i])
